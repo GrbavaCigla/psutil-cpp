@@ -1,12 +1,5 @@
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#include "psutil-cpp/utils.hpp"
 
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <math.h>
-
-// check if lhs and rhs (chars) are spaces (' ')
 bool are_spaces(char lhs, char rhs)
 {
     return (lhs == rhs) && (lhs == ' ');
@@ -37,7 +30,7 @@ std::vector<std::string> split_by_delim(std::string string, std::string delimite
     return array;
 }
 
-float usage_percent(unsigned long long used, unsigned long long total, int _round = -1)
+float usage_percent(unsigned long long used, unsigned long long total, int _round)
 {
     if (total == 0)
     {
@@ -57,4 +50,3 @@ float calculate_avail_memory()
 {
     return 0;
 }
-#endif

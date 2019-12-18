@@ -1,4 +1,4 @@
-#include "psutil.hpp"
+#include "psutil-cpp/linux/psutil.hpp"
 
 svmem virtual_memory()
 {
@@ -57,13 +57,14 @@ svmem virtual_memory()
     {
         result.available = result.free;
     }
-    result.percent = usage_percent(result.used, result.total);
+    result.percent = usage_percent(result.used, result.total, -1);
 
     return result;
 }
 
 svmem swap_memory()
 {
+    return svmem();
 }
 
 int main()
