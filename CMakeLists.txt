@@ -1,12 +1,14 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.4)
 
-project(hello_library)
+project(psutil_cpp)
 
-add_library(hello_library STATIC 
+set(BUILD_SHARED_LIBS OFF)
+
+add_library(psutil_cpp 
     src/utils.cpp
     src/linux/psutil.cpp
 )
 
-target_include_directories(hello_library
+target_include_directories(psutil_cpp
     PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
