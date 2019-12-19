@@ -14,5 +14,8 @@ target_include_directories(psutil-cpp
     PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
 
-install(TARGETS psutil-cpp LIBRARY DESTINATION lib)
+install(TARGETS psutil-cpp
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib        
+)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
