@@ -5,12 +5,13 @@
 #include "../utils.hpp"
 #include <fstream>
 #include <map>
+#include <sys/sysinfo.h>
 
 struct svmem
 {
     unsigned long long total;
     unsigned long long available;
-    unsigned long long percent;
+    float percent;
     unsigned long long used;
     unsigned long long free;
     unsigned long long active;
@@ -35,9 +36,11 @@ struct svmem
         slab = 0;
     }
 };
+// Operator overload for svmem struct, prints in python namedtuple style
+std::ostream &operator<<(std::ostream &output, const svmem &vmem);
 
 // System Memory
 svmem virtual_memory();
-svmem swap_memory();
+sswap swap_memory();
 
 #endif

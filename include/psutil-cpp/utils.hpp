@@ -20,4 +20,28 @@ float usage_percent(unsigned long long, unsigned long long, int);
 // TODO: Implement this
 float calculate_avail_memory();
 
+//Used for swap
+struct sswap
+{
+    unsigned long long total;
+    unsigned long long free;
+    unsigned long long used;
+    float percent;
+    unsigned long long sin;
+    unsigned long long sout;
+
+    sswap()
+    {
+        total = 0;
+        free = 0;
+        used = 0;
+        percent = 0;
+        sin = 0;
+        sout = 0;
+    }
+};
+
+// Operator overload for struct sswap, prints in python namedtuple style
+std::ostream &operator<<(std::ostream &output, const sswap &swap);
+
 #endif

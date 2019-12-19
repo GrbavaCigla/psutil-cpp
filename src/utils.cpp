@@ -50,3 +50,14 @@ float calculate_avail_memory()
 {
     return 0;
 }
+
+std::ostream &operator<<(std::ostream &output, const sswap &swap)
+{
+    return output << "sswap(total=" << swap.total
+                  << ", used=" << swap.used
+                  << ", free=" << swap.free
+                  << ", percent=" << swap.percent
+                  << ", sin=" << swap.sin
+                  << ", sout=" << swap.sout
+                  << ")" << std::endl;
+}
