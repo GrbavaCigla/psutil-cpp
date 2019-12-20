@@ -15,7 +15,7 @@ std::string trim_double_spaces(std::string);
 // Splits string by delimiter, first argument is string, second is delimiter
 std::vector<std::string> split_by_delim(std::string, std::string);
 
-float usage_percent(unsigned long long, unsigned long long, int);
+float usage_percent(unsigned long long used, unsigned long long total, int _round = -1);
 
 // TODO: Implement this
 float calculate_avail_memory();

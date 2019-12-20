@@ -1,5 +1,8 @@
 #include "psutil-cpp/linux/psutil.hpp"
 
+int CLOCK_TICKS = sysconf(_SC_CLK_TCK);
+int PAGESIZE = sysconf(_SC_PAGE_SIZE);
+
 svmem virtual_memory()
 {
     std::ifstream file("/proc/meminfo");
@@ -58,7 +61,7 @@ svmem virtual_memory()
     {
         result.available = result.free;
     }
-    result.percent = usage_percent(result.used, result.total, -1);
+    result.percent = usage_percent(result.used, result.total);
 
     return result;
 }
@@ -119,6 +122,68 @@ sswap swap_memory()
     return result;
 }
 
+std::vector<scputimes> cpu_times(bool percpu)
+{
+    std::ifstream stat("/proc/stat");
+    std::string line;
+    std::vector<std::string> temp_value;
+    std::vector<scputimes> result;
+    scputimes temp_scputimes = scputimes();
+    int counter = 0;
+    bool done = false;
+    if (stat.is_open())
+    {
+        if (percpu)
+        {
+            while (std::getline(stat, line))
+            {
+                if (counter != 0 && !done)
+                {
+                    line = trim_double_spaces(line);
+                    temp_value = split_by_delim(line, " ");
+
+                    if (temp_value[0].substr(0, 3) != "cpu")
+                    {
+                        done = true;
+                    }
+                    temp_scputimes.user = std::stof(temp_value[1]) / (float)CLOCK_TICKS;
+                    temp_scputimes.nice = std::stof(temp_value[2]) / (float)CLOCK_TICKS;
+                    temp_scputimes.system = std::stof(temp_value[3]) / (float)CLOCK_TICKS;
+                    temp_scputimes.idle = std::stof(temp_value[4]) / (float)CLOCK_TICKS;
+                    temp_scputimes.iowait = std::stof(temp_value[5]) / (float)CLOCK_TICKS;
+                    temp_scputimes.irq = std::stof(temp_value[6]) / (float)CLOCK_TICKS;
+                    temp_scputimes.softirq = std::stof(temp_value[7]) / (float)CLOCK_TICKS;
+                    temp_scputimes.steal = std::stof(temp_value[8]) / (float)CLOCK_TICKS;
+                    temp_scputimes.guest = std::stof(temp_value[9]) / (float)CLOCK_TICKS;
+                    temp_scputimes.guest_nice = std::stof(temp_value[10]) / (float)CLOCK_TICKS;
+                    result.push_back(temp_scputimes);
+                }
+                counter++;
+            }
+        }
+        else
+        {
+            std::getline(stat, line);
+            line = trim_double_spaces(line);
+            temp_value = split_by_delim(line, " ");
+            temp_scputimes.user = std::stof(temp_value[1]) / (float)CLOCK_TICKS;
+            temp_scputimes.nice = std::stof(temp_value[2]) / (float)CLOCK_TICKS;
+            temp_scputimes.system = std::stof(temp_value[3]) / (float)CLOCK_TICKS;
+            temp_scputimes.idle = std::stof(temp_value[4]) / (float)CLOCK_TICKS;
+            temp_scputimes.iowait = std::stof(temp_value[5]) / (float)CLOCK_TICKS;
+            temp_scputimes.irq = std::stof(temp_value[6]) / (float)CLOCK_TICKS;
+            temp_scputimes.softirq = std::stof(temp_value[7]) / (float)CLOCK_TICKS;
+            temp_scputimes.steal = std::stof(temp_value[8]) / (float)CLOCK_TICKS;
+            temp_scputimes.guest = std::stof(temp_value[9]) / (float)CLOCK_TICKS;
+            temp_scputimes.guest_nice = std::stof(temp_value[10]) / (float)CLOCK_TICKS;
+            result.push_back(temp_scputimes);
+        }
+
+        stat.close();
+    }
+    return result;
+}
+
 std::ostream &operator<<(std::ostream &output, const svmem &vmem)
 {
     return output << "svmem(total=" << vmem.total
@@ -132,5 +197,31 @@ std::ostream &operator<<(std::ostream &output, const svmem &vmem)
                   << ", cached=" << vmem.cached
                   << ", shared=" << vmem.shared
                   << ", slab=" << vmem.slab
-                  << ")" << std::endl;
+                  << ")";
+}
+
+std::ostream &operator<<(std::ostream &output, const scputimes &cputimes)
+{
+    return output << "scputimes(user=" << cputimes.user
+                  << ", nice=" << cputimes.nice
+                  << ", system=" << cputimes.system
+                  << ", idle=" << cputimes.idle
+                  << ", iowait=" << cputimes.iowait
+                  << ", irq=" << cputimes.irq
+                  << ", softirq=" << cputimes.softirq
+                  << ", steal=" << cputimes.steal
+                  << ", guest=" << cputimes.guest
+                  << ", guest_nice=" << cputimes.guest_nice
+                  << ")";
+}
+
+std::ostream &operator<<(std::ostream &output, const std::vector<scputimes> &cputimes)
+{
+    output << "{";
+    for (int i = 0; i < cputimes.size() - 1; i++)
+    {
+        output << cputimes[i] << ", ";
+    }
+    output << cputimes[cputimes.size() - 1] << "}";
+    return output;
 }

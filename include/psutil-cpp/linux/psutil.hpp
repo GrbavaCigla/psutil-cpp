@@ -6,6 +6,7 @@
 #include <fstream>
 #include <map>
 #include <sys/sysinfo.h>
+#include <unistd.h>
 
 struct svmem
 {
@@ -36,8 +37,45 @@ struct svmem
         slab = 0;
     }
 };
+
+struct scputimes
+{
+    float user;
+    float nice;
+    float system;
+    float idle;
+    float iowait;
+    float irq;
+    float softirq;
+    float steal;
+    float guest;
+    float guest_nice;
+
+    scputimes()
+    {
+        user = 0;
+        nice = 0;
+        system = 0;
+        idle = 0;
+        iowait = 0;
+        irq = 0;
+        softirq = 0;
+        steal = 0;
+        guest = 0;
+        guest_nice = 0;
+    }
+};
 // Operator overload for svmem struct, prints in python namedtuple style
 std::ostream &operator<<(std::ostream &output, const svmem &vmem);
+
+// Operator overload for scputimes struct, prints in python namedtuple style
+std::ostream &operator<<(std::ostream &output, const scputimes &cputimes);
+
+// Operator overload for vector of scputimes structs, prints in python namedtuple style
+std::ostream &operator<<(std::ostream &output, const std::vector<scputimes> &cputimes);
+
+// CPU
+std::vector<scputimes> cpu_times(bool percpu = false);
 
 // System Memory
 svmem virtual_memory();

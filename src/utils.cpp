@@ -59,5 +59,5 @@ std::ostream &operator<<(std::ostream &output, const sswap &swap)
                   << ", percent=" << swap.percent
                   << ", sin=" << swap.sin
                   << ", sout=" << swap.sout
-                  << ")" << std::endl;
+                  << ")";
 }
