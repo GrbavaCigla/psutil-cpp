@@ -8,7 +8,7 @@ enable_testing()
 set(CMAKE_CXX_STANDARD 17)
 
 option(BUILD_SHARED_LIBS OFF)
-option(BUILD_TESTS ON)
+option(BUILD_TESTS OFF)
 
 
 string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME_LOWER)
@@ -46,4 +46,4 @@ if(BUILD_TESTS)
     add_test("virtual_memory" virtual_memory)
     add_test("swap_memory"    swap_memory)
     add_test("cpu_count"      cpu_count)
-endif(BUILD_TESTS)
+endif()
