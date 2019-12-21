@@ -184,6 +184,14 @@ std::vector<scputimes> cpu_times(bool percpu)
     return result;
 }
 
+unsigned short int cpu_count(bool logical)
+{
+    if (logical)
+    {
+        return sysconf(_SC_NPROCESSORS_ONLN);
+    }
+}
+
 std::ostream &operator<<(std::ostream &output, const svmem &vmem)
 {
     return output << "svmem(total=" << vmem.total

@@ -76,6 +76,7 @@ std::ostream &operator<<(std::ostream &output, const std::vector<scputimes> &cpu
 
 // CPU
 std::vector<scputimes> cpu_times(bool percpu = false);
+unsigned short int cpu_count(bool logical = true);
 
 // System Memory
 svmem virtual_memory();
