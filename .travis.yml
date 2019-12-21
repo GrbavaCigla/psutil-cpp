@@ -5,3 +5,4 @@ language: cpp
 script:
   - cmake .
   - cmake --build . -- -j2
+  - make test
