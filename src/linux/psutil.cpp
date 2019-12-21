@@ -188,7 +188,7 @@ unsigned short int cpu_count(bool logical)
 {
     if (logical)
     {
-        return sysconf(_SC_NPROCESSORS_ONLN);
+        return sysconf(_SC_NPROCESSORS_ONLN); // TODO: Add fallback if this doesn't work!
     }
 }
 

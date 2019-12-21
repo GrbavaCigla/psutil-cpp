@@ -45,7 +45,9 @@ sudo make install
 
 ## Run tests
 
-_Not yet implemented!_
+```sh
+make test
+```
 
 ## Author
 
