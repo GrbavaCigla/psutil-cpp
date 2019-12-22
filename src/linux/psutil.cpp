@@ -129,12 +129,14 @@ std::vector<scputimes> cpu_times(bool percpu)
     std::vector<std::string> temp_value;
     std::vector<scputimes> result;
     scputimes temp_scputimes = scputimes();
-    int counter = 0;
-    bool done = false;
+    
+    
     if (stat.is_open())
     {
         if (percpu)
         {
+            int counter = 0;
+            bool done = false;
             while (std::getline(stat, line))
             {
                 if (counter != 0 && !done)
