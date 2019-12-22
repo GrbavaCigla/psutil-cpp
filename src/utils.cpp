@@ -51,6 +51,31 @@ float calculate_avail_memory()
     return 0;
 }
 
+std::map<std::string, unsigned long long> parse_file(std::string path, bool trim_lines, std::string delimiter, int value_multiplier)
+{
+    std::ifstream file(path);
+    std::string line;
+    std::vector<std::string> temp_value;
+    std::map<std::string, unsigned long long> mems;
+
+    if (file.is_open())
+    {
+        while (std::getline(file, line))
+        {
+            if (trim_lines)
+            {
+                line = trim_double_spaces(line);
+            }
+
+            temp_value = split_by_delim(line, std::string(delimiter));
+
+            mems[temp_value[0]] = std::stoull(temp_value[1]) * value_multiplier;
+        }
+        file.close();
+    }
+    return mems;
+}
+
 std::ostream &operator<<(std::ostream &output, const sswap &swap)
 {
     return output << "sswap(total=" << swap.total
@@ -59,5 +84,13 @@ std::ostream &operator<<(std::ostream &output, const sswap &swap)
                   << ", percent=" << swap.percent
                   << ", sin=" << swap.sin
                   << ", sout=" << swap.sout
+                  << ")";
+}
+
+std::ostream &operator<<(std::ostream &output, const scpufreq &cpufreq)
+{
+    return output << "scpufreq(current=" << cpufreq.current
+                  << ", min=" << cpufreq.min
+                  << ", max=" << cpufreq.max
                   << ")";
 }

@@ -5,23 +5,9 @@ int PAGESIZE = sysconf(_SC_PAGE_SIZE);
 
 svmem virtual_memory()
 {
-    std::ifstream file("/proc/meminfo");
-    std::string line;
-    std::vector<std::string> temp_value;
     svmem result = svmem();
-    std::map<std::string, unsigned long long> mems;
+    std::map<std::string, unsigned long long> mems = parse_file("/proc/meminfo", true, ": ", 1024);
 
-    if (file.is_open())
-    {
-        while (std::getline(file, line))
-        {
-            line = trim_double_spaces(line);
-            temp_value = split_by_delim(line, std::string(" "));
-
-            mems[temp_value[0].substr(0, temp_value[0].length() - 1)] = std::stoull(temp_value[1]) * 1024;
-        }
-        file.close();
-    }
     result.total = mems["MemTotal"];
     result.free = mems["MemFree"];
     result.buffers = mems["Buffers"];
@@ -68,23 +54,9 @@ svmem virtual_memory()
 
 sswap swap_memory()
 {
-    std::ifstream meminfo("/proc/meminfo");
-    std::string line;
-    std::vector<std::string> temp_value;
     sswap result = sswap();
-    std::map<std::string, unsigned long long> mems;
+    std::map<std::string, unsigned long long> mems = parse_file("/proc/meminfo", true, ": ", 1024);
 
-    if (meminfo.is_open())
-    {
-        while (std::getline(meminfo, line))
-        {
-            line = trim_double_spaces(line);
-            temp_value = split_by_delim(line, " ");
-
-            mems[temp_value[0].substr(0, temp_value[0].length() - 1)] = std::stoull(temp_value[1]) * 1024;
-        }
-        meminfo.close();
-    }
     result.total = mems["SwapTotal"];
     result.free = mems["SwapFree"];
 
@@ -100,6 +72,9 @@ sswap swap_memory()
 
     result.used = result.total - result.free;
     result.percent = usage_percent(result.used, result.total, 1);
+
+    std::vector<std::string> temp_value;
+    std::string line;
 
     std::ifstream vmstat("/proc/vmstat");
 
@@ -129,8 +104,7 @@ std::vector<scputimes> cpu_times(bool percpu)
     std::vector<std::string> temp_value;
     std::vector<scputimes> result;
     scputimes temp_scputimes = scputimes();
-    
-    
+
     if (stat.is_open())
     {
         if (percpu)
@@ -184,6 +158,10 @@ std::vector<scputimes> cpu_times(bool percpu)
         stat.close();
     }
     return result;
+}
+
+scpufreq cpu_freq(bool percpu)
+{
 }
 
 unsigned short int cpu_count(bool logical)

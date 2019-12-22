@@ -65,6 +65,7 @@ struct scputimes
         guest_nice = 0;
     }
 };
+
 // Operator overload for svmem struct, prints in python namedtuple style
 std::ostream &operator<<(std::ostream &output, const svmem &vmem);
 
@@ -76,6 +77,7 @@ std::ostream &operator<<(std::ostream &output, const std::vector<scputimes> &cpu
 
 // CPU
 std::vector<scputimes> cpu_times(bool percpu = false);
+scpufreq cpu_freq(bool percpu = false);
 unsigned short int cpu_count(bool logical = true);
 
 // System Memory

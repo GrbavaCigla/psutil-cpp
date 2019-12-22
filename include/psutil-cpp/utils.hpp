@@ -4,7 +4,9 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <map>
 #include <math.h>
+#include <fstream>
 
 // check if lhs and rhs (chars) are spaces (' ')
 bool are_spaces(char, char);
@@ -41,7 +43,34 @@ struct sswap
     }
 };
 
+struct scpufreq
+{
+    float current;
+    float min;
+    float max;
+
+    scpufreq()
+    {
+        current = 0;
+        min = 0;
+        max = 0;
+    }
+};
+
+// Parse file, example of file:
+// bla       1
+// bla_adw   3
+// bla       300
+// Output with trim and delimiter set to " " in std::map
+// bla:1
+// bla_adw:3
+// bla:300
+std::map<std::string, unsigned long long> parse_file(std::string path, bool trim_lines, std::string delimiter, int value_multiplier);
+
 // Operator overload for struct sswap, prints in python namedtuple style
 std::ostream &operator<<(std::ostream &output, const sswap &swap);
+
+// Operator overload for struct scpufreq, prints in python namedtuple style
+std::ostream &operator<<(std::ostream &output, const scpufreq &cpufreq);
 
 #endif
