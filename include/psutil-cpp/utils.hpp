@@ -58,11 +58,11 @@ struct scpufreq
     float min;
     float max;
 
-    scpufreq(float current = 0, float min = 0, float max = 0)
+    scpufreq(float current_par = 0, float min_par = 0, float max_par = 0)
     {
-        current = 0;
-        min = 0;
-        max = 0;
+        current = current_par;
+        min = min_par;
+        max = max_par;
     }
 };
 
