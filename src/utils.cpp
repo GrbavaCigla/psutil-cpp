@@ -13,6 +13,34 @@ std::string trim_double_spaces(std::string input)
     return input;
 }
 
+// Check if file exists
+bool fexists(const std::string &filename)
+{
+    std::ifstream ifile(filename.c_str());
+    return (bool)ifile;
+}
+
+bool dexists(std::string path)
+{
+    struct stat info;
+
+    int statRC = stat(path.c_str(), &info);
+    if (statRC != 0)
+    {
+        if (errno == ENOENT)
+        {
+            return 0;
+        } // something along the path does not exist
+        if (errno == ENOTDIR)
+        {
+            return 0;
+        } // something in path prefix is not a dir
+        return -1;
+    }
+
+    return (info.st_mode & S_IFDIR) ? 1 : 0;
+}
+
 // Splits string by delimiter, first argument is string, second is delimiter
 std::vector<std::string> split_by_delim(std::string string, std::string delimiter)
 {
@@ -98,11 +126,11 @@ std::string get_path(int num)
     std::string str1 = "/sys/devices/system/cpu/cpufreq/policy" + std::to_string(num) + "/";
     std::string str2 = "/sys/devices/system/cpu/cpu" + std::to_string(num) + "/cpufreq/";
 
-    if (std::filesystem::exists(str1))
+    if (dexists(str1))
     {
         return str1;
     }
-    else if (std::filesystem::exists(str2))
+    else if (dexists(str2))
     {
         return str2;
     }

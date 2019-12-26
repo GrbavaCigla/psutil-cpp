@@ -7,17 +7,25 @@
 #include <map>
 #include <math.h>
 #include <fstream>
-#include <filesystem>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 // check if lhs and rhs (chars) are spaces (' ')
 bool are_spaces(char, char);
 
 // Removes double spaces from string, example is /proc/meminfo
-std::string trim_double_spaces(std::string);
+std::string trim_double_spaces(std::string input);
+
+// Check if directory exists
+bool dexists(std::string path);
+
+// Check if file exists
+bool fexists(const std::string &filename);
 
 // Splits string by delimiter, first argument is string, second is delimiter
-std::vector<std::string> split_by_delim(std::string, std::string);
+std::vector<std::string> split_by_delim(std::string string, std::string delimiter);
 
+// Calculate usage percentage
 float usage_percent(unsigned long long used, unsigned long long total, int _round = -1);
 
 // TODO: Implement this

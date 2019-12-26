@@ -7,7 +7,6 @@
 #include <map>
 #include <sys/sysinfo.h>
 #include <unistd.h>
-#include <filesystem>
 
 struct svmem
 {

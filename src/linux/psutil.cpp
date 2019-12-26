@@ -165,14 +165,14 @@ std::vector<scpufreq> cpu_freq(bool percpu)
 
     std::vector<scpufreq> result;
     scpufreq temp_cpufreq;
-    if (std::filesystem::exists("/sys/devices/system/cpu/cpufreq/policy0/") || std::filesystem::exists("/sys/devices/system/cpu/cpu0/cpufreq/"))
+    if (dexists("/sys/devices/system/cpu/cpufreq/policy0/") || dexists("/sys/devices/system/cpu/cpu0/cpufreq/"))
     {
         std::string curr_path;
 
         for (int i = 0; i < cpu_count(); i++)
         {
             curr_path = get_path(i);
-            if (std::filesystem::exists(curr_path + "scaling_cur_freq"))
+            if (fexists(curr_path + "scaling_cur_freq"))
             {
                 temp_cpufreq.current = std::stof(cat(curr_path + "scaling_cur_freq")[0]) / 1024;
             }
