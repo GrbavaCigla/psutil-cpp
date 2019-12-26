@@ -7,6 +7,7 @@
 #include <map>
 #include <math.h>
 #include <fstream>
+#include <filesystem>
 
 // check if lhs and rhs (chars) are spaces (' ')
 bool are_spaces(char, char);
@@ -49,7 +50,7 @@ struct scpufreq
     float min;
     float max;
 
-    scpufreq()
+    scpufreq(float current = 0, float min = 0, float max = 0)
     {
         current = 0;
         min = 0;
@@ -66,6 +67,12 @@ struct scpufreq
 // bla_adw:3
 // bla:300
 std::map<std::string, unsigned long long> parse_file(std::string path, bool trim_lines, std::string delimiter, int value_multiplier);
+
+// Returns contents of file
+std::vector<std::string> cat(std::string path);
+
+// Returns valid path for cpu_freq
+std::string get_path(int num);
 
 // Operator overload for struct sswap, prints in python namedtuple style
 std::ostream &operator<<(std::ostream &output, const sswap &swap);

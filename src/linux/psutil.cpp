@@ -160,8 +160,34 @@ std::vector<scputimes> cpu_times(bool percpu)
     return result;
 }
 
-scpufreq cpu_freq(bool percpu)
+std::vector<scpufreq> cpu_freq(bool percpu)
 {
+
+    std::vector<scpufreq> result;
+    scpufreq temp_cpufreq;
+    if (std::filesystem::exists("/sys/devices/system/cpu/cpufreq/policy0/") || std::filesystem::exists("/sys/devices/system/cpu/cpu0/cpufreq/"))
+    {
+        std::string curr_path;
+
+        for (int i = 0; i < cpu_count(); i++)
+        {
+            curr_path = get_path(i);
+            if (std::filesystem::exists(curr_path + "scaling_cur_freq"))
+            {
+                temp_cpufreq.current = std::stof(cat(curr_path + "scaling_cur_freq")[0]) / 1024;
+            }
+            else
+            {
+                temp_cpufreq.current = std::stof(cat(curr_path + "cpuinfo_cur_freq")[0]) / 1024;
+            }
+
+            temp_cpufreq.min = std::stof(cat(curr_path + "cpuinfo_min_freq")[0]) / 1024;
+            temp_cpufreq.max = std::stof(cat(curr_path + "cpuinfo_max_freq")[0]) / 1024;
+
+            result.push_back(temp_cpufreq);
+        }
+    }
+    return result;
 }
 
 unsigned short int cpu_count(bool logical)
@@ -170,6 +196,7 @@ unsigned short int cpu_count(bool logical)
     {
         return sysconf(_SC_NPROCESSORS_ONLN); // TODO: Add fallback if this doesn't work!
     }
+    return 0;
 }
 
 std::ostream &operator<<(std::ostream &output, const svmem &vmem)
@@ -211,5 +238,16 @@ std::ostream &operator<<(std::ostream &output, const std::vector<scputimes> &cpu
         output << cputimes[i] << ", ";
     }
     output << cputimes[cputimes.size() - 1] << "}";
+    return output;
+}
+
+std::ostream &operator<<(std::ostream &output, const std::vector<scpufreq> &cpufreq)
+{
+    output << "{";
+    for (int i = 0; i < cpufreq.size() - 1; i++)
+    {
+        output << cpufreq[i] << ", ";
+    }
+    output << cpufreq[cpufreq.size() - 1] << "}";
     return output;
 }

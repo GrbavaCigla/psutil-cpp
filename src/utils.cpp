@@ -76,6 +76,39 @@ std::map<std::string, unsigned long long> parse_file(std::string path, bool trim
     return mems;
 }
 
+std::vector<std::string> cat(std::string path)
+{
+    std::ifstream file(path);
+    std::string line;
+    std::vector<std::string> result;
+
+    if (file.is_open())
+    {
+        while (std::getline(file, line))
+        {
+            result.push_back(line);
+        }
+        file.close();
+    }
+    return result;
+}
+
+std::string get_path(int num)
+{
+    std::string str1 = "/sys/devices/system/cpu/cpufreq/policy" + std::to_string(num) + "/";
+    std::string str2 = "/sys/devices/system/cpu/cpu" + std::to_string(num) + "/cpufreq/";
+
+    if (std::filesystem::exists(str1))
+    {
+        return str1;
+    }
+    else if (std::filesystem::exists(str2))
+    {
+        return str2;
+    }
+    return "none";
+}
+
 std::ostream &operator<<(std::ostream &output, const sswap &swap)
 {
     return output << "sswap(total=" << swap.total

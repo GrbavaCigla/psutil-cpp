@@ -1,5 +1,5 @@
-#ifndef PSUTIL_H
-#define PSUTIL_H
+#ifndef PSUTIL_HPP
+#define PSUTIL_HPP
 
 #include <iostream>
 #include "../utils.hpp"
@@ -7,6 +7,7 @@
 #include <map>
 #include <sys/sysinfo.h>
 #include <unistd.h>
+#include <filesystem>
 
 struct svmem
 {
@@ -75,9 +76,12 @@ std::ostream &operator<<(std::ostream &output, const scputimes &cputimes);
 // Operator overload for vector of scputimes structs, prints in python namedtuple style
 std::ostream &operator<<(std::ostream &output, const std::vector<scputimes> &cputimes);
 
+// Operator overload for vector of scpufreq structs, prints in python namedtuple stylem
+std::ostream &operator<<(std::ostream &output, const std::vector<scpufreq> &cpufreq);
+
 // CPU
 std::vector<scputimes> cpu_times(bool percpu = false);
-scpufreq cpu_freq(bool percpu = false);
+std::vector<scpufreq> cpu_freq(bool percpu = false);
 unsigned short int cpu_count(bool logical = true);
 
 // System Memory
