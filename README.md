@@ -14,9 +14,6 @@
   <a href="https://github.com/GrbavaCigla/psutil-cpp/blob/master/LICENSE" target="_blank">
     <img alt="License: GPLv3" src="https://img.shields.io/github/license/GrbavaCigla/psutil-cpp" />
   </a>
-  <a href="https://twitter.com/GrbavaCigla" target="_blank">
-    <img alt="Twitter: GrbavaCigla" src="https://img.shields.io/twitter/follow/GrbavaCigla.svg?style=social" />
-  </a>
 </p>
 
 > psutil port for C++ [WIP]
