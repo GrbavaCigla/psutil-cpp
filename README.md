@@ -52,7 +52,6 @@ make test
 👤 **Alexa Ognjanovic**
 
 - Website: grbavacigla.github.io
-- Twitter: [@GrbavaCigla](https://twitter.com/GrbavaCigla)
 - Github: [@GrbavaCigla](https://github.com/GrbavaCigla)
 
 ## 🤝 Contributing
