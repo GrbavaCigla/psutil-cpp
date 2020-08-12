@@ -17,6 +17,7 @@
 </p>
 
 > psutil port for C++ [WIP]
+__NOTE: Currently it only supports linux and it isn't the best code. Also there is problem with built system (CMake)...__
 
 ### 🏠 [Homepage](https://github.com/GrbavaCigla/psutil-cpp)
 
