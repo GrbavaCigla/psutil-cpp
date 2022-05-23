@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
   
   <a href="https://github.com/GrbavaCigla/psutil-cpp/graphs/commit-activity" target="_blank">
-    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-no-red.svg" />
   </a>
   <a href="https://travis-ci.org/GrbavaCigla/psutil-cpp">
     <img alt="Travis CI" src="https://api.travis-ci.org/GrbavaCigla/psutil-cpp.svg?branch=master">
