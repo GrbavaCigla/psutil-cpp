@@ -20,7 +20,6 @@ set(LIBSRC
 )
 
 add_library(${PROJECT_NAME} SHARED ${LIBSRC})
-add_library(${PROJECT_NAME}_static STATIC ${LIBSRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 target_include_directories(${PROJECT_NAME}
