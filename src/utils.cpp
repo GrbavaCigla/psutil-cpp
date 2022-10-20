@@ -20,8 +20,9 @@ bool fexists(const std::string &filename)
     return (bool)ifile;
 }
 
-bool dexists(std::string path)
+std::optional<bool> dexists(std::string path)
 {
+#ifdef linux
     struct stat info;
 
     int statRC = stat(path.c_str(), &info);
@@ -38,7 +39,9 @@ bool dexists(std::string path)
         return -1;
     }
 
-    return (info.st_mode & S_IFDIR) ? 1 : 0;
+    return (info.st_mode & S_IFDIR) ? true : false;
+#endif
+    return std::nullopt;
 }
 
 // Splits string by delimiter, first argument is string, second is delimiter

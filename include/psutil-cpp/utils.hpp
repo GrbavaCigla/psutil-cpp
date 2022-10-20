@@ -1,14 +1,17 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <map>
 #include <math.h>
 #include <fstream>
+#include <optional>
+
+#ifdef linux
 #include <sys/types.h>
 #include <sys/stat.h>
+#endif
 
 // check if lhs and rhs (chars) are spaces (' ')
 bool are_spaces(char, char);
@@ -17,7 +20,7 @@ bool are_spaces(char, char);
 std::string trim_double_spaces(std::string input);
 
 // Check if directory exists
-bool dexists(std::string path);
+std::optional<bool> dexists(std::string path);
 
 // Check if file exists
 bool fexists(const std::string &filename);
