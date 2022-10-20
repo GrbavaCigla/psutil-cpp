@@ -1,4 +1,4 @@
-#include "psutil-cpp/cpu.hpp"
+#include <psutil-cpp/cpu.hpp>
 
 std::optional<std::vector<scputimes>> cpu_times(bool percpu)
 {
