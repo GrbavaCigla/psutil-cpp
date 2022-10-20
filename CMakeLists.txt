@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 
-project(psutil-cpp DESCRIPTION "Psutil")
+project(psutil-cpp DESCRIPTION "Psutil" VERSION "1.0")
 
 include(CTest)
 enable_testing()
@@ -13,12 +13,15 @@ option(CMAKE_BUILD_TYPE Release)
 
 string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME_LOWER)
 
-
-add_library(${PROJECT_NAME} 
+set(LIBSRC 
     src/utils.cpp
     src/cpu.cpp
     src/mem.cpp
 )
+
+add_library(${PROJECT_NAME} SHARED ${LIBSRC})
+add_library(${PROJECT_NAME}_static STATIC ${LIBSRC})
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
