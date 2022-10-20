@@ -31,41 +31,6 @@ float usage_percent(unsigned long long used, unsigned long long total, int _roun
 // TODO: Implement this
 float calculate_avail_memory();
 
-//Used for swap
-struct sswap
-{
-    unsigned long long total;
-    unsigned long long free;
-    unsigned long long used;
-    float percent;
-    unsigned long long sin;
-    unsigned long long sout;
-
-    sswap()
-    {
-        total = 0;
-        free = 0;
-        used = 0;
-        percent = 0;
-        sin = 0;
-        sout = 0;
-    }
-};
-
-struct scpufreq
-{
-    float current;
-    float min;
-    float max;
-
-    scpufreq(float current_par = 0, float min_par = 0, float max_par = 0)
-    {
-        current = current_par;
-        min = min_par;
-        max = max_par;
-    }
-};
-
 // Parse file, example of file:
 // bla       1
 // bla_adw   3
@@ -81,11 +46,5 @@ std::vector<std::string> cat(std::string path);
 
 // Returns valid path for cpu_freq
 std::string get_path(int num);
-
-// Operator overload for struct sswap, prints in python namedtuple style
-std::ostream &operator<<(std::ostream &output, const sswap &swap);
-
-// Operator overload for struct scpufreq, prints in python namedtuple style
-std::ostream &operator<<(std::ostream &output, const scpufreq &cpufreq);
 
 #endif

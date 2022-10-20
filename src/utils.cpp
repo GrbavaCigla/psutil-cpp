@@ -136,22 +136,3 @@ std::string get_path(int num)
     }
     return "none";
 }
-
-std::ostream &operator<<(std::ostream &output, const sswap &swap)
-{
-    return output << "sswap(total=" << swap.total
-                  << ", used=" << swap.used
-                  << ", free=" << swap.free
-                  << ", percent=" << swap.percent
-                  << ", sin=" << swap.sin
-                  << ", sout=" << swap.sout
-                  << ")";
-}
-
-std::ostream &operator<<(std::ostream &output, const scpufreq &cpufreq)
-{
-    return output << "scpufreq(current=" << cpufreq.current
-                  << ", min=" << cpufreq.min
-                  << ", max=" << cpufreq.max
-                  << ")";
-}

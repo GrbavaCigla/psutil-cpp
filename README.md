@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
   
   <a href="https://github.com/GrbavaCigla/psutil-cpp/graphs/commit-activity" target="_blank">
-    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-no-red.svg" />
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
   <a href="https://travis-ci.org/GrbavaCigla/psutil-cpp">
     <img alt="Travis CI" src="https://api.travis-ci.org/GrbavaCigla/psutil-cpp.svg?branch=master">
@@ -17,7 +17,7 @@
 </p>
 
 > psutil port for C++ [WIP]
-__NOTE: Currently it only supports linux and it isn't the best code. Also there is problem with built system (CMake)...__
+__NOTE: Currently it only supports linux.__
 
 ### 🏠 [Homepage](https://github.com/GrbavaCigla/psutil-cpp)
 
@@ -51,7 +51,7 @@ make test
 
 👤 **Alexa Ognjanovic**
 
-- Website: grbavacigla.github.io
+- Website: grbavacigla.tk
 - Github: [@GrbavaCigla](https://github.com/GrbavaCigla)
 
 ## 🤝 Contributing
@@ -64,7 +64,7 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2019 [Alexa Ognjanovic](https://github.com/GrbavaCigla).<br />
+Copyright © 2019-2022 [Alexa Ognjanovic](https://github.com/GrbavaCigla).<br />
 This project is [GPLv3](https://github.com/GrbavaCigla/psutil-cpp/blob/master/LICENSE) licensed.
 
 ---

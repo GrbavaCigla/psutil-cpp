@@ -16,7 +16,8 @@ string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME_LOWER)
 
 add_library(${PROJECT_NAME} 
     src/utils.cpp
-    src/${SYSTEM_NAME_LOWER}/psutil.cpp
+    src/cpu.cpp
+    src/mem.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

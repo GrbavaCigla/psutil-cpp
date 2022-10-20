@@ -1,104 +1,10 @@
-#include "psutil-cpp/linux/psutil.hpp"
+#include "psutil-cpp/cpu.hpp"
 
-int CLOCK_TICKS = sysconf(_SC_CLK_TCK);
-int PAGESIZE = sysconf(_SC_PAGE_SIZE);
-
-svmem virtual_memory()
+std::optional<std::vector<scputimes>> cpu_times(bool percpu)
 {
-    svmem result = svmem();
-    std::map<std::string, unsigned long long> mems = parse_file("/proc/meminfo", true, ": ", 1024);
+#ifdef linux
+    int CLOCK_TICKS = sysconf(_SC_CLK_TCK);
 
-    result.total = mems["MemTotal"];
-    result.free = mems["MemFree"];
-    result.buffers = mems["Buffers"];
-    result.cached = mems["Cached"];
-    result.shared = mems["Shmem"];
-    result.active = mems["Active"];
-    result.inactive = mems["Inactive"];
-    result.slab = mems["Slab"];
-    result.available = mems["MemAvailable"];
-    if (!result.cached)
-    {
-        result.cached = mems["SReclaimable"];
-    }
-    if (!result.shared)
-    {
-        result.shared = mems["MemShared"];
-    }
-    if (!result.inactive)
-    {
-        result.inactive = mems["Inact_dirty"] + mems["Inact_clean"] + mems["Inact_laundry"];
-    }
-    result.used = result.total - result.free - result.cached - result.buffers;
-    if (result.used < 0)
-    {
-        result.used = result.total - result.free;
-    }
-    if (!result.available)
-
-    {
-        result.available = result.free + result.buffers + result.cached; // TODO: Replace with calculate_avail_memory(), when it is made
-    }
-    if (result.available < 0)
-    {
-        result.available = 0;
-    }
-    if (result.available > result.total)
-    {
-        result.available = result.free;
-    }
-    result.percent = usage_percent(result.used, result.total);
-
-    return result;
-}
-
-sswap swap_memory()
-{
-    sswap result = sswap();
-    std::map<std::string, unsigned long long> mems = parse_file("/proc/meminfo", true, ": ", 1024);
-
-    result.total = mems["SwapTotal"];
-    result.free = mems["SwapFree"];
-
-    if (!result.total || !result.free)
-    {
-        struct sysinfo info;
-        if (sysinfo(&info) == 0)
-        {
-            result.total = info.totalswap;
-            result.free = info.freeswap;
-        }
-    }
-
-    result.used = result.total - result.free;
-    result.percent = usage_percent(result.used, result.total, 1);
-
-    std::vector<std::string> temp_value;
-    std::string line;
-
-    std::ifstream vmstat("/proc/vmstat");
-
-    if (vmstat.is_open())
-    {
-        while (std::getline(vmstat, line))
-        {
-            temp_value = split_by_delim(line, " ");
-            if (line.substr(0, 7) == "pswpin ")
-            {
-                result.sin = std::stoull(temp_value[1]) * 4096;
-            }
-            if (line.substr(0, 7) == "pswpout")
-            {
-                result.sout = std::stoull(temp_value[1]) * 4096;
-            }
-        }
-        vmstat.close();
-    }
-    return result;
-}
-
-std::vector<scputimes> cpu_times(bool percpu)
-{
     std::ifstream stat("/proc/stat");
     std::string line;
     std::vector<std::string> temp_value;
@@ -158,11 +64,13 @@ std::vector<scputimes> cpu_times(bool percpu)
         stat.close();
     }
     return result;
+#endif
+    return std::nullopt;
 }
 
-std::vector<scpufreq> cpu_freq(bool percpu)
+std::optional<std::vector<scpufreq>> cpu_freq(bool percpu)
 {
-
+#ifdef linux
     std::vector<scpufreq> result;
     scpufreq temp_cpufreq;
     if (dexists("/sys/devices/system/cpu/cpufreq/policy0/") || dexists("/sys/devices/system/cpu/cpu0/cpufreq/"))
@@ -188,6 +96,8 @@ std::vector<scpufreq> cpu_freq(bool percpu)
         }
     }
     return result;
+#endif
+    return std::nullopt;
 }
 
 unsigned short int cpu_count(bool logical)
@@ -197,22 +107,6 @@ unsigned short int cpu_count(bool logical)
         return sysconf(_SC_NPROCESSORS_ONLN); // TODO: Add fallback if this doesn't work!
     }
     return 0;
-}
-
-std::ostream &operator<<(std::ostream &output, const svmem &vmem)
-{
-    return output << "svmem(total=" << vmem.total
-                  << ", available=" << vmem.available
-                  << ", percent=" << vmem.percent
-                  << ", used=" << vmem.used
-                  << ", free=" << vmem.free
-                  << ", active=" << vmem.active
-                  << ", inactive=" << vmem.inactive
-                  << ", buffers=" << vmem.buffers
-                  << ", cached=" << vmem.cached
-                  << ", shared=" << vmem.shared
-                  << ", slab=" << vmem.slab
-                  << ")";
 }
 
 std::ostream &operator<<(std::ostream &output, const scputimes &cputimes)
@@ -250,4 +144,12 @@ std::ostream &operator<<(std::ostream &output, const std::vector<scpufreq> &cpuf
     }
     output << cpufreq[cpufreq.size() - 1] << "}";
     return output;
+}
+
+std::ostream &operator<<(std::ostream &output, const scpufreq &cpufreq)
+{
+    return output << "scpufreq(current=" << cpufreq.current
+                  << ", min=" << cpufreq.min
+                  << ", max=" << cpufreq.max
+                  << ")";
 }

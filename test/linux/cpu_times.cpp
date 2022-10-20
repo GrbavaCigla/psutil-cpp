@@ -1,8 +1,8 @@
 #include <iostream>
-#include <psutil-cpp/linux/psutil.hpp>
+#include <psutil-cpp/cpu.hpp>
 
 int main(){
-	std::cout << cpu_times() << std::endl;
-	std::cout << cpu_times(true);
+	std::cout << cpu_times().value() << std::endl;
+	std::cout << cpu_times(true).value();
 	return 0;
 }

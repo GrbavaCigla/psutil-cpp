@@ -1,4 +1,5 @@
-#include <psutil-cpp/linux/psutil.hpp>
+#include <psutil-cpp/cpu.hpp>
+#include <psutil-cpp/mem.hpp>
 #include <iostream>
 
 int main()
