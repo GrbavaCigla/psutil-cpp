@@ -73,7 +73,7 @@ std::optional<std::vector<scpufreq>> cpu_freq(bool percpu)
 #ifdef linux
     std::vector<scpufreq> result;
     scpufreq temp_cpufreq;
-    if (dexists("/sys/devices/system/cpu/cpufreq/policy0/") || dexists("/sys/devices/system/cpu/cpu0/cpufreq/"))
+    if (dexists("/sys/devices/system/cpu/cpufreq/policy0/").value() || dexists("/sys/devices/system/cpu/cpu0/cpufreq/").value())
     {
         std::string curr_path;
 
