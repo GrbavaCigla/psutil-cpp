@@ -1,5 +1,5 @@
 #include <iostream>
-#include <psutil-cpp/linux/psutil.hpp>
+#include <psutil-cpp/cpu.hpp>
 
 int main()
 {
