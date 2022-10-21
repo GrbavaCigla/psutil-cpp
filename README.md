@@ -12,7 +12,7 @@
     <img alt="Codacy" src="https://api.codacy.com/project/badge/Grade/c31024ae2a0e45fa8ccb2daa9f01be60">
   </a>
   <a href="https://github.com/GrbavaCigla/psutil-cpp/blob/master/LICENSE" target="_blank">
-    <img alt="License: GPLv3" src="https://img.shields.io/github/license/GrbavaCigla/psutil-cpp" />
+    <img alt="License: Apache" src="https://img.shields.io/github/license/GrbavaCigla/psutil-cpp" />
   </a>
 </p>
 
