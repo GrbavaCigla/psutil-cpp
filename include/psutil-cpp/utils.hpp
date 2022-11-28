@@ -50,4 +50,19 @@ std::vector<std::string> cat(std::string path);
 // Returns valid path for cpu_freq
 std::string get_path(int num);
 
+void sleep_mlsec(uint32_t millisec);
+
+bool is_only_numbers(const std::string &str);
+
+std::vector<std::string> get_dirs_list(const std::string &path);
+
+std::string file_to_string(const std::string &filename);
+
+std::string replace_all(std::string str, const std::string &from, const std::string &to);
+
+template<typename T>
+T round2(const T number) {
+  return round(number * 100) / 100;
+}
+
 #endif

@@ -1,3 +1,5 @@
 .vscode
 build
 mytest
+.idea
+cmake-build*

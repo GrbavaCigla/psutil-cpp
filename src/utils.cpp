@@ -1,4 +1,9 @@
 #include <psutil-cpp/utils.hpp>
+#include <dirent.h>
+#include <chrono>
+#include <thread>
+#include <sstream>
+
 
 bool are_spaces(char lhs, char rhs)
 {
@@ -17,7 +22,9 @@ std::string trim_double_spaces(std::string input)
 bool fexists(const std::string &filename)
 {
     std::ifstream ifile(filename.c_str());
-    return (bool)ifile;
+    bool res = ifile.is_open();
+    ifile.close();
+    return res;
 }
 
 std::optional<bool> dexists(std::string path)
@@ -138,4 +145,56 @@ std::string get_path(int num)
         return str2;
     }
     return "none";
+}
+
+void sleep_mlsec(uint32_t millisec) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(millisec));
+}
+
+bool is_only_numbers(const std::string &str) {
+  if (str.empty()) {
+    return false;
+  }
+  return str.find_first_not_of("0123456789") == std::string::npos;
+}
+
+std::vector<std::string> get_dirs_list(const std::string &path) {
+  std::vector<std::string> res;
+  if (!fexists(path)) {
+    return res;
+  }
+
+  auto dir = opendir(path.c_str());
+  auto entry = readdir(dir);
+
+  while (entry != nullptr) {
+    if (entry->d_type == DT_DIR) {
+      res.push_back(entry->d_name);
+    }
+    entry = readdir(dir);
+  }
+
+  closedir(dir);
+  return res;
+}
+
+std::string file_to_string(const std::string &filename) {
+  std::ifstream ifs(filename);
+  std::string res;
+  if (ifs.is_open()) {
+    std::ostringstream oss;
+    oss << ifs.rdbuf();
+    res = oss.str();
+  }
+  ifs.close();
+  return res;
+}
+
+std::string replace_all(std::string str, const std::string &from, const std::string &to) {
+  size_t start_pos = 0;
+  while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    str.replace(start_pos, from.length(), to);
+    start_pos += to.length();
+  }
+  return str;
 }
