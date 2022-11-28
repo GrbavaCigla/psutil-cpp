@@ -178,13 +178,6 @@ std::vector<std::string> get_dirs_list(const std::string &path) {
   return res;
 }
 
-bool IsFileExists(const std::string &filename) {
-  std::ifstream ifs(filename.c_str());
-  bool res = ifs.is_open();
-  ifs.close();
-  return res;
-}
-
 std::string file_to_string(const std::string &filename) {
   std::ifstream ifs(filename);
   std::string res;
