@@ -13,14 +13,14 @@ option(CMAKE_BUILD_TYPE Release)
 
 string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME_LOWER)
 
-set(LIBSRC 
+set(LIBSRC
     src/utils.cpp
     src/cpu.cpp
     src/mem.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${LIBSRC})
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
@@ -29,7 +29,7 @@ target_include_directories(${PROJECT_NAME}
 
 install(TARGETS ${PROJECT_NAME}
     LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib        
+    ARCHIVE DESTINATION lib
 )
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
 
