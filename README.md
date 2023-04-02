@@ -64,7 +64,7 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2019-2022 [Alexa Ognjanovic](https://github.com/GrbavaCigla).<br />
+Copyright © 2019-2023 [Alexa Ognjanovic](https://github.com/GrbavaCigla).<br />
 This project is [Apache](https://github.com/GrbavaCigla/psutil-cpp/blob/master/LICENSE) licensed.
 
 ---
