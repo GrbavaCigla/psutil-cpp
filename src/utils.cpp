@@ -147,11 +147,11 @@ std::string get_path(int num)
     return "none";
 }
 
-void sleep_mlsec(uint32_t millisec) {
-  std::this_thread::sleep_for(std::chrono::milliseconds(millisec));
+void sleep_mlsec(uint32_t mlsec) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(mlsec));
 }
 
-bool is_only_numbers(const std::string &str) {
+bool has_only_numbers(const std::string &str) {
   if (str.empty()) {
     return false;
   }
