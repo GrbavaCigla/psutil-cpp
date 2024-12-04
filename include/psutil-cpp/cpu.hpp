@@ -2,12 +2,54 @@
 #include <vector>
 #include <ostream>
 #include <optional>
+#include <chrono>
 
 #include "psutil-cpp/utils.hpp"
 
 #ifdef linux
 #include <unistd.h>
 #endif
+
+using PID = uint32_t;
+using PTime = std::chrono::system_clock::time_point;
+
+/**
+ * Represents single system process and CPU related data for this process
+ */
+struct process {
+  process() = default;
+
+  explicit process(PID pid);
+
+  PID pid{0};                    // field[0]
+  std::string name;              // field[1]
+  std::string path;
+  std::string cmdline_cmd;
+  bool exists{false};
+  PTime time;
+  char status{0};                // field[2]
+  PID ppid{0};                   // field[3]
+  uint32_t ttynr{0};             // field[6]
+  float utime{0};                // field[13]
+  float stime{0};                // field[14]
+  float children_utime{0};       // field[15]
+  float children_stime{0};       // field[16]
+  float create_time{0};          // field[21]
+  uint8_t cpu_num{0};            // field[38]
+  uint32_t blkio_ticks{0};       // field[41]  # aka 'delayacct_blkio_ticks'
+  float iowait{0};               // calculated
+  float cpu_percent{0};          // calculated
+  // stores previous values
+  float last_stime{-1};
+  float last_utime{-1};
+  PTime last_time;
+
+  void reset();
+
+  void update(PID pid);
+
+  float get_cpu_percent(uint32_t interval_mlsec = 0);
+};
 
 struct scputimes
 {

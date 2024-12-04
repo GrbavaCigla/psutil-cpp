@@ -50,9 +50,9 @@ std::vector<std::string> cat(std::string path);
 // Returns valid path for cpu_freq
 std::string get_path(int num);
 
-void sleep_mlsec(uint32_t millisec);
+void sleep_mlsec(uint32_t mlsec);
 
-bool is_only_numbers(const std::string &str);
+bool has_only_numbers(const std::string &str);
 
 std::vector<std::string> get_dirs_list(const std::string &path);
 
